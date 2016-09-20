@@ -1,0 +1,32 @@
+<!doctype html>
+
+<html>
+  <head>
+    <title>d2l-numeric-pager test</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
+    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="../../web-component-tester/browser.js"></script>
+
+    <link rel="import" href="../d2l-numeric-pager.html">
+  </head>
+  <body>
+
+    <test-fixture id="basic">
+      <template>
+        <d2l-numeric-pager></d2l-numeric-pager>
+      </template>
+    </test-fixture>
+
+    <script>
+      suite('d2l-numeric-pager', function() {
+
+        test('instantiating the element works', function() {
+          var element = fixture('basic');
+          assert.equal(element.is, 'd2l-numeric-pager');
+        });
+
+      });
+    </script>
+  </body>
+</html>
