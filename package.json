@@ -1,0 +1,33 @@
+{
+  "name": "d2l-numeric-pager-ui",
+  "private": true,
+  "description": "\"Numeric Pager used in Brightspace Platform\"",
+  "scripts": {
+    "postinstall": "bower install",
+    "test": "polymer test",
+    "test:lint:js": "eslint .",
+    "test:lint:wc": "polylint"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Brightspace/d2l-numeric-pager-ui.git"
+  },
+  "keywords": [
+    "d2l",
+    "polymer"
+  ],
+  "author": "D2L Corporation",
+  "license": "Apache 2.0",
+  "bugs": {
+    "url": "https://github.com/Brightspace/d2l-numeric-pager-ui/issues"
+  },
+  "homepage": "https://github.com/Brightspace/d2l-numeric-pager-ui#readme",
+  "devDependencies": {
+    "bower": "^1.7.9",
+    "eslint": "^3.5.0",
+    "eslint-config-brightspace": "^0.2.1",
+    "eslint-plugin-html": "^1.5.2",
+    "polylint": "^2.10.1",
+    "polymer-cli": "^0.16.0"
+  }
+}
