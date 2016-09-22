@@ -4,7 +4,7 @@
   "description": "\"Numeric Pager used in Brightspace Platform\"",
   "scripts": {
     "postinstall": "bower install",
-    "test": "polymer test",
+    "test": "npm run test:lint:js && npm run test:lint:wc && polymer test",
     "test:lint:js": "eslint .",
     "test:lint:wc": "polylint"
   },
