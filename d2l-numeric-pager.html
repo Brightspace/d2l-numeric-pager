@@ -44,7 +44,8 @@ Numeric Pager used in Brightspace Platform
 			<input is="iron-input"
 				type=text
 				prevent-invalid-input allowed-pattern="[0-9]"
-				bind-value={{currentPage}}>
+				bind-value={{currentPage}}
+				on-change="_onChange">
 			</input>
 			<span>/</span>
 			<span>[[pageCount]]</span>
@@ -75,6 +76,11 @@ Numeric Pager used in Brightspace Platform
 		nextPagelbl: {
 			type: String,
 			value: "Next Page",
+		}
+	},
+	_onChange: function(){
+		if(parseInt(this.currentPage) < 1 || parseInt(this.currentPage) > parseInt(this.pageCount)){
+			this.currentPage = 1;
 		}
 	},
 	_previousPage: function(){
