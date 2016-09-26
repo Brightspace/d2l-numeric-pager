@@ -14,15 +14,14 @@ Numeric Pager used in Brightspace Platform
 
 <dom-module id="d2l-numeric-pager">
 	<template>
-		<style include="d2l-colors"></style>
-		<style include="d2l-typography"></style>
+		<style include="d2l-colors d2l-typography"></style>
 		<style>
 		:host {
-			display: block;
+			display: inline-block;
 		}
 		input {
-			width: 3em;
-			height: 2em;
+			width: 3rem;
+			height: 2rem;
 			text-align: center;
 		}
 		input:focus,
@@ -31,14 +30,14 @@ Numeric Pager used in Brightspace Platform
 		}
 		span {
 			font-weight: lighter;
-			width: 2em;
+			width: 2rem;
 		}
 		</style>
 		<div>
 			<button is="d2l-image-action"
 					icon="d2l-tier1:chevron-left"
 					on-tap="_previousPage"
-					aria-label$="[[previousPagelbl]]">
+					aria-label$="[[previousLabel]]">
 			</button>
 			<input is="iron-input"
 				type=text
@@ -51,7 +50,7 @@ Numeric Pager used in Brightspace Platform
 			<button is="d2l-image-action"
 					icon="d2l-tier1:chevron-right"
 					on-tap="_nextPage"
-					aria-label$="[[nextPagelbl]]">
+					aria-label$="[[nextLabel]]">
 			</button>
 		</div>
 	</template>
@@ -68,11 +67,11 @@ Numeric Pager used in Brightspace Platform
 			notify: true,
 			reflectToAttribute: true
 		},
-		previousPagelbl: {
+		previousLabel: {
 			type: String,
 			value: "Previous Page",
 		},
-		nextPagelbl: {
+		nextLabel: {
 			type: String,
 			value: "Next Page",
 		}
