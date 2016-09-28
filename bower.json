@@ -8,7 +8,9 @@
     "d2l-typography": "^4.1.0",
     "d2l-colors": "^2.1.0",
     "d2l-image-action": "^0.5.0",
-    "iron-input": "^1.0.10"
+    "d2l-forms": "git+https://github.com/Brightspace/d2l-forms-ui.git",
+    "iron-a11y-keys": "^1.0.6",
+    "iron-a11y-announcer": "^1.0.5"
   },
   "devDependencies": {
     "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",
