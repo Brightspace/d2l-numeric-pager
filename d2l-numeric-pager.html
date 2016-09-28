@@ -1,9 +1,11 @@
 <link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="../d2l-colors/d2l-colors.html">
+<link rel="import" href="../d2l-forms/d2l-input.html">
+<link rel="import" href="../d2l-icons/d2l-icon-button.html">
 <link rel="import" href="../d2l-icons/tier1-icons.html">
-<link rel="import" href="../d2l-image-action/d2l-image-action.html">
 <link rel="import" href="../d2l-typography/d2l-typography.html">
-<link rel="import" href="../iron-input/iron-input.html">
+<link rel="import" href="../iron-a11y-keys/iron-a11y-keys.html">
+<link rel="import" href="../iron-a11y-announcer/iron-a11y-announcer.html">
 
 <!--
 `d2l-numeric-pager`
@@ -20,13 +22,9 @@ Numeric Pager used in Brightspace Platform
 			display: inline-block;
 		}
 		input {
-			width: 3rem;
+			width: 4rem;
 			height: 2rem;
 			text-align: center;
-		}
-		input:focus,
-		input:hover {
-			border-color: var(--d2l-color-celestine);
 		}
 		span {
 			font-weight: lighter;
@@ -34,23 +32,34 @@ Numeric Pager used in Brightspace Platform
 		}
 		</style>
 		<div>
-			<button is="d2l-image-action"
+			<button is="d2l-icon-button"
 					icon="d2l-tier1:chevron-left"
 					on-tap="_previousPage"
-					aria-label$="[[previousLabel]]">
+					aria-label$="[[previousLabel]]"
+					disabled$="{{_disablePreviousButton(currentPage)}}">
 			</button>
-			<input is="iron-input"
+			<iron-a11y-keys
+					target="[[target]]"
+					keys="enter"
+                    on-keys-pressed="onEnter">
+			</iron-a11y-keys>
+			<input is="d2l-input"
 				type=text
 				prevent-invalid-input allowed-pattern="[0-9]"
-				bind-value={{currentPage}}
-				on-change="_onChange">
+				value={{currentPage::input}}
+				on-change="_onChange"
+				aria-required="true"
+				title$="[[pageLabel]]"
+				aria-live="assertive"
+				tabindex=0>
 			</input>
 			<span>/</span>
 			<span>[[pageCount]]</span>
-			<button is="d2l-image-action"
+			<button is="d2l-icon-button"
 					icon="d2l-tier1:chevron-right"
 					on-tap="_nextPage"
-					aria-label$="[[nextLabel]]">
+					aria-label$="[[nextLabel]]"
+					disabled$="{{_disableNextButton(currentPage)}}">
 			</button>
 		</div>
 	</template>
@@ -67,28 +76,63 @@ Numeric Pager used in Brightspace Platform
 			notify: true,
 			reflectToAttribute: true
 		},
+		pageLabel:{
+			type: String,
+			value: "Page Number"
+		},
 		previousLabel: {
 			type: String,
-			value: "Previous Page",
+			value: "Previous Page"
 		},
 		nextLabel: {
 			type: String,
-			value: "Next Page",
+			value: "Next Page"
+  		},
+		target: {
+			type: Object,
+			value: function() {
+				return this.$.input;
+			}
 		}
 	},
-	_onChange: function(){
-		if(parseInt(this.currentPage) < 1 || parseInt(this.currentPage) > parseInt(this.pageCount)){
-			this.currentPage = 1;
+	created: function(){
+		Polymer.IronA11yAnnouncer.requestAvailability();
+	},
+	onEnter: function() {
+	  this._announcePage();
+	},
+	_onChange: function(e){
+		var currentPage = parseInt(e.target.value);
+		if(isNaN(currentPage)){
+			this._announce('Invalid character. Resetting to default value of 1');
+			currentPage = 1;
 		}
+		currentPage = Math.max( 1, currentPage );
+		currentPage = Math.min( this.pageCount, currentPage );
+		this.currentPage = currentPage;
 	},
 	_previousPage: function(){
-		var min = 1;
-		this.currentPage = this.currentPage === 1 ? min : (parseInt(this.currentPage) - 1);
+		this.currentPage = Math.max( 1, this.currentPage - 1);
+		this._announcePage();
 	},
 
 	_nextPage: function(){
-		var max = parseInt(this.pageCount);
-		this.currentPage = this.currentPage === max ? max : (parseInt(this.currentPage) + 1);
+		var max = this.pageCount;
+		var currentPage = this.currentPage;
+		this.currentPage = currentPage === max ? max : currentPage + 1;
+		this._announcePage();
+	},
+	_disableNextButton: function(currentPage){
+		return (currentPage === this.pageCount ? true: false);
+	},
+	_disablePreviousButton: function(currentPage){
+		return (currentPage === 1 ? true: false);
+	},
+	_announcePage: function(){
+		this._announce('Page number' + this.currentPage + 'of' + this.pageCount);
+	},
+	_announce: function(message){
+		this.fire('iron-announce', {text: message}, {bubbles:true});
 	}
 
     });
