@@ -91,6 +91,9 @@ Numeric Pager used in Brightspace Platform
 				this._announce('Invalid character. Resetting to default value of 1');
 				currentPage = 1;
 			}
+			if(currentPage < 1 || currentPage > this.pageCount){
+				this._announce('Out of page number range. Resetting page number');
+			}
 			currentPage = Math.max( 1, currentPage );
 			currentPage = Math.min( this.pageCount, currentPage );
 			this.currentPage = currentPage;
