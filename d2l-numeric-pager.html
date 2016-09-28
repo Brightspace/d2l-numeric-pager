@@ -23,7 +23,6 @@ Numeric Pager used in Brightspace Platform
 		}
 		input {
 			width: 4rem;
-			height: 2rem;
 			text-align: center;
 		}
 		span {
@@ -35,8 +34,8 @@ Numeric Pager used in Brightspace Platform
 			<button is="d2l-icon-button"
 					icon="d2l-tier1:chevron-left"
 					on-tap="_previousPage"
-					aria-label$="[[previousLabel]]"
 					disabled$="{{_disablePreviousButton(currentPage)}}">
+					Previous Page
 			</button>
 			<iron-a11y-keys
 					target="[[target]]"
@@ -49,92 +48,75 @@ Numeric Pager used in Brightspace Platform
 				value={{currentPage::input}}
 				on-change="_onChange"
 				aria-required="true"
-				title$="[[pageLabel]]"
-				aria-live="assertive"
-				tabindex=0>
+				title="Page Number">
 			</input>
 			<span>/</span>
 			<span>[[pageCount]]</span>
 			<button is="d2l-icon-button"
 					icon="d2l-tier1:chevron-right"
 					on-tap="_nextPage"
-					aria-label$="[[nextLabel]]"
 					disabled$="{{_disableNextButton(currentPage)}}">
+					Next Page
 			</button>
 		</div>
 	</template>
 
   <script>
     Polymer({
-
-    is: 'd2l-numeric-pager',
-	properties: {
-		pageCount: Number,
-		currentPage: {
-			type: Number,
-			value: 1,
-			notify: true,
-			reflectToAttribute: true
-		},
-		pageLabel:{
-			type: String,
-			value: "Page Number"
-		},
-		previousLabel: {
-			type: String,
-			value: "Previous Page"
-		},
-		nextLabel: {
-			type: String,
-			value: "Next Page"
-  		},
-		target: {
-			type: Object,
-			value: function() {
-				return this.$.input;
+		is: 'd2l-numeric-pager',
+		properties: {
+			pageCount: Number,
+			currentPage: {
+				type: Number,
+				value: 1,
+				notify: true,
+				reflectToAttribute: true
+			},
+			target: {
+				type: Object,
+				value: function() {
+					return this.$.input;
+				}
 			}
+		},
+		created: function(){
+			Polymer.IronA11yAnnouncer.requestAvailability();
+		},
+		onEnter: function() {
+		  this._announcePage();
+		},
+		_onChange: function(e){
+			var currentPage = parseInt(e.target.value);
+			if(isNaN(currentPage)){
+				this._announce('Invalid character. Resetting to default value of 1');
+				currentPage = 1;
+			}
+			currentPage = Math.max( 1, currentPage );
+			currentPage = Math.min( this.pageCount, currentPage );
+			this.currentPage = currentPage;
+		},
+		_previousPage: function(){
+			this.currentPage = Math.max( 1, this.currentPage - 1);
+			this._announcePage();
+		},
+		_nextPage: function(){
+			var max = this.pageCount;
+			var currentPage = this.currentPage;
+			this.currentPage = currentPage === max ? max : currentPage + 1;
+			this._announcePage();
+		},
+		_disableNextButton: function(currentPage){
+			return (currentPage === this.pageCount ? true: false);
+		},
+		_disablePreviousButton: function(currentPage){
+			return (currentPage === 1 ? true: false);
+		},
+		_announcePage: function(){
+			this._announce('Page number' + this.currentPage + 'of' + this.pageCount);
+		},
+		_announce: function(message){
+			this.fire('iron-announce', {text: message}, {bubbles:true});
 		}
-	},
-	created: function(){
-		Polymer.IronA11yAnnouncer.requestAvailability();
-	},
-	onEnter: function() {
-	  this._announcePage();
-	},
-	_onChange: function(e){
-		var currentPage = parseInt(e.target.value);
-		if(isNaN(currentPage)){
-			this._announce('Invalid character. Resetting to default value of 1');
-			currentPage = 1;
-		}
-		currentPage = Math.max( 1, currentPage );
-		currentPage = Math.min( this.pageCount, currentPage );
-		this.currentPage = currentPage;
-	},
-	_previousPage: function(){
-		this.currentPage = Math.max( 1, this.currentPage - 1);
-		this._announcePage();
-	},
-
-	_nextPage: function(){
-		var max = this.pageCount;
-		var currentPage = this.currentPage;
-		this.currentPage = currentPage === max ? max : currentPage + 1;
-		this._announcePage();
-	},
-	_disableNextButton: function(currentPage){
-		return (currentPage === this.pageCount ? true: false);
-	},
-	_disablePreviousButton: function(currentPage){
-		return (currentPage === 1 ? true: false);
-	},
-	_announcePage: function(){
-		this._announce('Page number' + this.currentPage + 'of' + this.pageCount);
-	},
-	_announce: function(message){
-		this.fire('iron-announce', {text: message}, {bubbles:true});
-	}
-
     });
   </script>
 </dom-module>
