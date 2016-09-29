@@ -115,7 +115,7 @@ Numeric Pager used in Brightspace Platform
 			return (currentPage === 1 ? true: false);
 		},
 		_announcePage: function(){
-			this._announce('Page number' + this.currentPage + 'of' + this.pageCount);
+			this._announce('Page number ' + this.currentPage + ' of ' + this.pageCount);
 		},
 		_announce: function(message){
 			this.fire('iron-announce', {text: message}, {bubbles:true});
