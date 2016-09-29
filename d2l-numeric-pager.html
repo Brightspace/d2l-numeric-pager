@@ -63,63 +63,63 @@ Numeric Pager used in Brightspace Platform
 
   <script>
     Polymer({
-		is: 'd2l-numeric-pager',
-		properties: {
-			pageCount: Number,
-			currentPage: {
-				type: Number,
-				value: 1,
-				notify: true,
-				reflectToAttribute: true
-			},
-			target: {
-				type: Object,
-				value: function() {
-					return this.$.input;
-				}
+	is: 'd2l-numeric-pager',
+	properties: {
+		pageCount: Number,
+		currentPage: {
+			type: Number,
+			value: 1,
+			notify: true,
+			reflectToAttribute: true
+		},
+		target: {
+			type: Object,
+			value: function() {
+				return this.$.input;
 			}
-		},
-		created: function(){
-			Polymer.IronA11yAnnouncer.requestAvailability();
-		},
-		onEnter: function() {
-		  this._announcePage();
-		},
-		_onChange: function(e){
-			var currentPage = parseInt(e.target.value);
-			if(isNaN(currentPage)){
-				this._announce('Invalid character. Resetting to default value of 1');
-				currentPage = 1;
-			}
-			if(currentPage < 1 || currentPage > this.pageCount){
-				this._announce('Out of page number range. Resetting page number');
-			}
-			currentPage = Math.max( 1, currentPage );
-			currentPage = Math.min( this.pageCount, currentPage );
-			this.currentPage = currentPage;
-		},
-		_previousPage: function(){
-			this.currentPage = Math.max( 1, this.currentPage - 1);
-			this._announcePage();
-		},
-		_nextPage: function(){
-			var max = this.pageCount;
-			var currentPage = this.currentPage;
-			this.currentPage = currentPage === max ? max : currentPage + 1;
-			this._announcePage();
-		},
-		_disableNextButton: function(currentPage){
-			return (currentPage === this.pageCount ? true: false);
-		},
-		_disablePreviousButton: function(currentPage){
-			return (currentPage === 1 ? true: false);
-		},
-		_announcePage: function(){
-			this._announce('Page number ' + this.currentPage + ' of ' + this.pageCount);
-		},
-		_announce: function(message){
-			this.fire('iron-announce', {text: message}, {bubbles:true});
 		}
+	},
+	created:function() {
+		Polymer.IronA11yAnnouncer.requestAvailability();
+	},
+	onEnter:function() {
+		this._announcePage();
+	},
+	_onChange:function(e) {
+		var currentPage = parseInt(e.target.value);
+		if (isNaN(currentPage)) {
+			this._announce('Invalid character. Resetting to default value of 1');
+			currentPage = 1;
+		}
+		if (currentPage < 1 || currentPage > this.pageCount) {
+			this._announce('Out of page number range. Resetting page number');
+		}
+		currentPage = Math.max( 1, currentPage );
+		currentPage = Math.min( this.pageCount, currentPage );
+		this.currentPage = currentPage;
+	},
+	_previousPage:function() {
+		this.currentPage = Math.max( 1, this.currentPage - 1);
+		this._announcePage();
+	},
+	_nextPage:function() {
+		var max = this.pageCount;
+		var currentPage = this.currentPage;
+		this.currentPage = currentPage === max ? max : currentPage + 1;
+		this._announcePage();
+	},
+	_disableNextButton:function(currentPage) {
+		return (currentPage === this.pageCount ? true : false);
+	},
+	_disablePreviousButton:function(currentPage) {
+		return (currentPage === 1 ? true : false);
+	},
+	_announcePage:function() {
+		this._announce('Page number ' + this.currentPage + ' of ' + this.pageCount);
+	},
+	_announce:function(message) {
+		this.fire('iron-announce', {text: message}, {bubbles:true});
+	}
     });
   </script>
 </dom-module>

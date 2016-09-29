@@ -25,10 +25,11 @@
 		</test-fixture>
 
 		<script>
-			describe('a11y', function(){
+			describe('a11y', function() {
 				a11ySuite('basic');
 			});
 			describe('<d2l-numeric-pager>', function() {
+				var numericPager;
 				beforeEach(function(done) {
 					numericPager = fixture('basic');
 					flush(done);
@@ -39,128 +40,130 @@
 				it('should have currentPage set', function() {
 					expect(numericPager.currentPage).to.equal(1);
 				});
-				it('should update currentPage when currentPage value is modified', function(){
-					numericPager.currentPage=8;
+				it('should update currentPage when currentPage value is modified', function() {
+					numericPager.currentPage = 8;
 					expect(numericPager.currentPage).to.equal(8);
 				});
-				it('should update currentPage when input value is modified', function(done){
-					numericPager.$$('input').value=8;
+				it('should update currentPage when input value is modified', function(done) {
+					numericPager.$$('input').value = 8;
 					numericPager.$$('input').fire('change');
-					flush(function(){
-							MockInteractions.pressEnter(numericPager.$$('input'));
-						flush(function(){
+					flush(function() {
+						MockInteractions.pressEnter(numericPager.$$('input'));
+						flush(function() {
 							expect(numericPager.currentPage).to.equal(8);
 							done();
 						});
 					});
 				});
-				it('should increment the currentPage when nextButton is clicked', function(){
+				it('should increment the currentPage when nextButton is clicked', function() {
 					expect(numericPager.currentPage).to.equal(1);
 					numericPager.$$('button[icon="d2l-tier1:chevron-right').click();
 					expect(numericPager.currentPage).to.equal(2);
 				});
-				it('should decrement the currentPage when previousButton is clicked', function(){
+				it('should decrement the currentPage when previousButton is clicked', function() {
 					expect(numericPager.currentPage).to.equal(1);
 					numericPager.$$('button[icon="d2l-tier1:chevron-right').click();
 					expect(numericPager.currentPage).to.equal(2);
 					numericPager.$$('button[icon="d2l-tier1:chevron-left').click();
 					expect(numericPager.currentPage).to.equal(1);
 				});
-				it('should reset the currentPage when input is greater than pageCount', function(){
-					numericPager.$$('input').value=11;
+				it('should reset the currentPage when input is greater than pageCount', function() {
+					numericPager.$$('input').value = 11;
 					numericPager.$$('input').fire('change');
 					MockInteractions.pressEnter(numericPager.$$('input'));
 					expect(numericPager.currentPage).to.equal(10);
 				});
-				it('should reset the currentPage when input is less than 1', function(){
-					numericPager.$$('input').value=0;
+				it('should reset the currentPage when input is less than 1', function() {
+					numericPager.$$('input').value = 0;
 					numericPager.$$('input').fire('change');
 					MockInteractions.pressEnter(numericPager.$$('input'));
 					expect(numericPager.currentPage).to.equal(1);
 				});
-				it('should reset the currentPage when invalid input is entered', function(){
-					numericPager.$$('input').value='asdfd';
+				it('should reset the currentPage when invalid input is entered', function() {
+					numericPager.$$('input').value = 'asdfd';
 					numericPager.$$('input').fire('change');
 					MockInteractions.pressEnter(numericPager.$$('input'));
 					expect(numericPager.currentPage).to.equal(1);
 				});
-				it('should disable next button when currentPage===pageCount', function(){
-					expect(numericPager.$$('button[icon="d2l-tier1:chevron-right"]').hasAttribute("disabled")).to.be.false;
+				it('should disable next button when currentPage===pageCount', function() {
+					expect(numericPager.$$('button[icon="d2l-tier1:chevron-right"]').hasAttribute('disabled')).to.be.false;
 				});
-				it('should disable previous button when currentPage=1', function(){
-					expect(numericPager.$$('button[icon="d2l-tier1:chevron-left"]').hasAttribute("disabled")).to.be.true;
+				it('should disable previous button when currentPage=1', function() {
+					expect(numericPager.$$('button[icon="d2l-tier1:chevron-left"]').hasAttribute('disabled')).to.be.true;
 				});
 			});
-			describe('<d2l-numeric-pager> - disabled next and previous buttons', function(){
+			describe('<d2l-numeric-pager> - disabled next and previous buttons', function() {
+				var numericPager;
 				beforeEach(function(done) {
 					numericPager = fixture('currentPageMax');
 					flush(done);
 				});
-				it('should disable next button when currentPage===pageCount', function(){
+				it('should disable next button when currentPage===pageCount', function(done) {
 					numericPager.addEventListener('enter', function() {
-						expect(numericPager.$$('button[icon="d2l-tier1:chevron-right"]').hasAttribute("disabled")).to.be.true;
+						expect(numericPager.$$('button[icon="d2l-tier1:chevron-right"]').hasAttribute('disabled')).to.be.true;
 						done();
-					  });
+					});
 					MockInteractions.pressEnter(numericPager.$$('input'));
 				});
-				it('should disable previous button when currentPage=1', function(){
-					expect(numericPager.$$('button[icon="d2l-tier1:chevron-left"]').hasAttribute("disabled")).to.be.false;
+				it('should disable previous button when currentPage=1', function() {
+					expect(numericPager.$$('button[icon="d2l-tier1:chevron-left"]').hasAttribute('disabled')).to.be.false;
 				});
 			});
-			describe('<d2l-numeric-pager> - a11y', function(){
+			describe('<d2l-numeric-pager> - a11y', function() {
+				var numericPager;
 				beforeEach(function(done) {
 					numericPager = fixture('basic');
 					flush(done);
 				});
-				it('should raise an announcement when input is changed', function(done){
-					numericPager.addEventListener('iron-announce', function(event){
+				it('should raise an announcement when input is changed', function(done) {
+					numericPager.addEventListener('iron-announce', function(event) {
 						expect(event.detail.text).to.equal('Page number 8 of 10');
 						done();
 					});
-					numericPager.$$('input').value=8;
+					numericPager.$$('input').value = 8;
 					numericPager.$$('input').fire('change');
 					MockInteractions.pressEnter(numericPager.$$('input'));
 				});
-				it('should raise an announcement when nextButton is clicked', function(done){
-					numericPager.addEventListener('iron-announce', function(event){
+				it('should raise an announcement when nextButton is clicked', function(done) {
+					numericPager.addEventListener('iron-announce', function(event) {
 						expect(event.detail.text).to.equal('Page number 2 of 10');
 						done();
 					});
 					numericPager.$$('button[icon="d2l-tier1:chevron-right').click();
 				});
-				it('should raise an announcement when previousButton is clicked', function(done){
-					numericPager.addEventListener('iron-announce', function(event){
+				it('should raise an announcement when previousButton is clicked', function(done) {
+					numericPager.addEventListener('iron-announce', function(event) {
 						expect(event.detail.text).to.equal('Page number 2 of 10');
 						done();
 					});
-					numericPager.$$('input').value=3;
+					numericPager.$$('input').value = 3;
 					numericPager.$$('input').fire('change');
 					numericPager.$$('button[icon="d2l-tier1:chevron-left').click();
 				});
-				it('should raise an announcement when invalid input is entered', function(done){
-					numericPager.addEventListener('iron-announce', function(event){
+				it('should raise an announcement when invalid input is entered', function(done) {
+					numericPager.addEventListener('iron-announce', function(event) {
 						expect(event.detail.text).to.equal('Invalid character. Resetting to default value of 1');
 						done();
 					});
-					numericPager.$$('input').value='asfdsf';
+					numericPager.$$('input').value = 'asfdsf';
 					numericPager.$$('input').fire('change');
 				});
-				it('should raise an announcement when input exceeds pageCount', function(done){
-					numericPager.addEventListener('iron-announce', function(event){
+				it('should raise an announcement when input exceeds pageCount', function(done) {
+					numericPager.addEventListener('iron-announce', function(event) {
 						expect(event.detail.text).to.equal('Out of page number range. Resetting page number');
 						done();
 					});
-					numericPager.$$('input').value=11;
+					numericPager.$$('input').value = 11;
 					numericPager.$$('input').fire('change');
 				});
-				it('previous button should have a title', function(){
-					expect(numericPager.$$('button[icon="d2l-tier1:chevron-left"]').hasAttribute("title")).to.be.true;
+				it('previous button should have a title', function() {
+					expect(numericPager.$$('button[icon="d2l-tier1:chevron-left"]').hasAttribute('title')).to.be.true;
 				});
-				it('next button should have a label', function(){
-					expect(numericPager.$$('button[icon="d2l-tier1:chevron-right"]').hasAttribute("title")).to.be.true;
+				it('next button should have a label', function() {
+					expect(numericPager.$$('button[icon="d2l-tier1:chevron-right"]').hasAttribute('title')).to.be.true;
 				});
-				it('input should have a label', function(){
-					expect(numericPager.$$('button[icon="d2l-tier1:chevron-right"]').hasAttribute("title")).to.be.true;
+				it('input should have a label', function() {
+					expect(numericPager.$$('button[icon="d2l-tier1:chevron-right"]').hasAttribute('title')).to.be.true;
 				});
 			});
 		</script>
