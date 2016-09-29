@@ -1,29 +1,21 @@
 <!doctype html>
 <html>
-  <head>
-    <title>d2l-numeric-pager demo</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
-    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
-
-    <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
-    <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
-
-    <link rel="import" href="../d2l-numeric-pager.html">
-
-    <style is="custom-style" include="demo-pages-shared-styles">
-    </style>
-  </head>
-  <body>
-
-    <div class="vertical-section-container centered">
-      <h3>Basic d2l-numeric-pager Demo</h3>
-      <demo-snippet>
-        <template>
-          <d2l-numeric-pager page-count="10"></d2l-numeric-pager>
-        </template>
-      </demo-snippet>
-    </div>
-
-  </body>
+	<head>
+		<title>d2l-numeric-pager</title>
+    	<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
+		<script src="https://s.brightspace.com/lib/webcomponentsjs/0.7.21/webcomponents.min.js"></script>
+		<link rel="import" href="../../d2l-demo-template/d2l-demo-template.html">
+		<link rel="import" href="../d2l-numeric-pager.html">
+	</head>
+	<body>
+    <d2l-demo-template title="d2l-numeric-pager">
+        <div class="d2l-demo-actions">
+            <!-- your actions -->
+        </div>
+        <div class="d2l-demo-fixture">
+            <d2l-numeric-pager page-count="10"></d2l-numeric-pager>
+        </div>
+    </d2l-demo-template>
+	</body>
 </html>
