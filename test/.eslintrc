@@ -4,9 +4,11 @@
     "mocha": true
   },
   "globals": {
+  	"a11ySuite": true,
     "fixture": true,
     "flush": true,
     "expect": true,
+	"MockInteractions": true,
     "sinon": true,
     "WCT": true
   }

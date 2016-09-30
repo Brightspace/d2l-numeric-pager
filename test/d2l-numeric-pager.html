@@ -48,7 +48,7 @@
 					numericPager.$$('input').value = 8;
 					numericPager.$$('input').fire('change');
 					flush(function() {
-						MockInteractions.pressEnter(numericPager.$$('input')); // eslint-disable-line
+						MockInteractions.pressEnter(numericPager.$$('input'));
 						flush(function() {
 							expect(numericPager.currentPage).to.equal(8);
 							done();
@@ -70,19 +70,19 @@
 				it('should reset the currentPage when input is greater than pageCount', function() {
 					numericPager.$$('input').value = 11;
 					numericPager.$$('input').fire('change');
-					MockInteractions.pressEnter(numericPager.$$('input')); // eslint-disable-line
+					MockInteractions.pressEnter(numericPager.$$('input'));
 					expect(numericPager.currentPage).to.equal(10);
 				});
 				it('should reset the currentPage when input is less than 1', function() {
 					numericPager.$$('input').value = 0;
 					numericPager.$$('input').fire('change');
-					MockInteractions.pressEnter(numericPager.$$('input')); // eslint-disable-line
+					MockInteractions.pressEnter(numericPager.$$('input'));
 					expect(numericPager.currentPage).to.equal(1);
 				});
 				it('should reset the currentPage when invalid input is entered', function() {
 					numericPager.$$('input').value = 'asdfd';
 					numericPager.$$('input').fire('change');
-					MockInteractions.pressEnter(numericPager.$$('input')); // eslint-disable-line
+					MockInteractions.pressEnter(numericPager.$$('input'));
 					expect(numericPager.currentPage).to.equal(1);
 				});
 				it('should disable next button when currentPage===pageCount', function() {
@@ -103,7 +103,7 @@
 						expect(numericPager.$$('button[icon="d2l-tier1:chevron-right"]').hasAttribute('disabled')).to.be.true;
 						done();
 					});
-					MockInteractions.pressEnter(numericPager.$$('input')); // eslint-disable-line
+					MockInteractions.pressEnter(numericPager.$$('input'));
 				});
 				it('should disable previous button when currentPage=1', function() {
 					expect(numericPager.$$('button[icon="d2l-tier1:chevron-left"]').hasAttribute('disabled')).to.be.false;
@@ -122,7 +122,7 @@
 					});
 					numericPager.$$('input').value = 8;
 					numericPager.$$('input').fire('change');
-					MockInteractions.pressEnter(numericPager.$$('input')); // eslint-disable-line
+					MockInteractions.pressEnter(numericPager.$$('input'));
 				});
 				it('should raise an announcement when nextButton is clicked', function(done) {
 					numericPager.addEventListener('iron-announce', function(event) {
