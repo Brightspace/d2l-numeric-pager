@@ -1,5 +1,9 @@
 # d2l-numeric-pager
 
+[![Bower version][bower-image]][bower-url]
+[![Build status][ci-image]][ci-url]
+[![Build status][license-image]][license-url]
+
 A [Polymer](https://www.polymer-project.org/1.0/)-based web component for numeric-pager.
 
 ## Installation
@@ -37,5 +41,9 @@ In production, it's recommended to use a build tool like [Vulcanize](https://git
 
 See the [VUI Best Practices & Style Guide](https://github.com/Brightspace/valence-ui-docs/wiki/Best-Practices-&-Style-Guide) for information on VUI naming conventions, plus information about the [EditorConfig](http://editorconfig.org) rules used in this repo.
 
-
-[bower-url]: http://bower.io/search/?q=d2l-table
+[bower-url]: http://bower.io/search/?q=d2l-numeric-pager
+[bower-image]: https://img.shields.io/bower/v/d2l-numeric-pager.svg
+[ci-image]: https://travis-ci.org/Brightspace/d2l-numeric-pager-ui.svg?branch=master
+[ci-url]: https://travis-ci.org/Brightspace/d2l-numeric-pager-ui
+[license-image]: https://img.shields.io/github/license/Brightspace/d2l-numeric-pager-ui.svg
+[license-url]: https://img.shields.io/github/license/Brightspace/d2l-numeric-pager-ui
