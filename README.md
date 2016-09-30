@@ -1,38 +1,49 @@
-# \<d2l-numeric-pager\>
+# d2l-numeric-pager
 
-Numeric Pager used in Brightspace Platform
+[![Bower version][bower-image]][bower-url]
+[![Build status][ci-image]][ci-url]
+[![Build status][license-image]][license-url]
 
-## Install the Polymer-CLI
+A [Polymer](https://www.polymer-project.org/1.0/)-based web component for numeric-pager.
 
-First, make sure you have the [Polymer CLI](https://www.npmjs.com/package/polymer-cli) installed. Then run `polymer serve` to serve your application locally.
+## Installation
 
-## Viewing Your Application
-
-```
-$ polymer serve
-```
-
-## Building Your Application
-
-```
-$ polymer build
+`d2l-numeric-pager` can be installed from [Bower][bower-url]:
+```shell
+bower install d2l-numeric-pager
 ```
 
-This will create a `build/` folder with `bundled/` and `unbundled/` sub-folders
-containing a bundled (Vulcanized) and unbundled builds, both run through HTML,
-CSS, and JS optimizers.
+## Usage
 
-You can serve the built versions by giving `polymer serve` a folder to serve
-from:
+Include the [webcomponents.js](http://webcomponents.org/polyfills/) "lite" polyfill (for browsers who don't natively support web components)
 
-```
-$ polymer serve build/bundled
-```
-
-## Running Tests
-
-```
-$ polymer test
+```html
+<head>
+	<script src="https://s.brightspace.com/lib/webcomponentsjs/0.7.21/webcomponents-lite.min.js"></script>
+</head>
 ```
 
-Your application is already set up to be tested via [web-component-tester](https://github.com/Polymer/web-component-tester). Run `polymer test` to run your application's test suite locally.
+### Numeric Pager
+
+A Numeric Pager can be defined using `d2l-numeric-pager`.
+
+```html
+<link rel="import" href="../d2l-numeric-pager/d2l-numeric-pager.html">
+
+<d2l-numeric-pager page-count="10"></d2l-numeric-pager>
+```
+
+### Usage in Production
+
+In production, it's recommended to use a build tool like [Vulcanize](https://github.com/Polymer/vulcanize) to combine all your web components into a single import file. [More from the Polymer Docs: Optimize for Production](https://www.polymer-project.org/1.0/tools/optimize-for-production.html)...
+
+## Coding styles
+
+See the [VUI Best Practices & Style Guide](https://github.com/Brightspace/valence-ui-docs/wiki/Best-Practices-&-Style-Guide) for information on VUI naming conventions, plus information about the [EditorConfig](http://editorconfig.org) rules used in this repo.
+
+[bower-url]: http://bower.io/search/?q=d2l-numeric-pager
+[bower-image]: https://img.shields.io/bower/v/d2l-numeric-pager.svg
+[ci-image]: https://travis-ci.org/Brightspace/d2l-numeric-pager-ui.svg?branch=master
+[ci-url]: https://travis-ci.org/Brightspace/d2l-numeric-pager-ui
+[license-image]: https://img.shields.io/github/license/Brightspace/d2l-numeric-pager-ui.svg
+[license-url]: https://img.shields.io/github/license/Brightspace/d2l-numeric-pager-ui

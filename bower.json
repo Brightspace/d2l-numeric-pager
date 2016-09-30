@@ -3,12 +3,21 @@
   "description": "Numeric Pager used in Brightspace Platform",
   "main": "d2l-numeric-pager.html",
   "dependencies": {
-    "polymer": "Polymer/polymer#^1.4.0"
+    "polymer": "Polymer/polymer#^1.4.0",
+    "d2l-icons": "^2.8.0",
+    "d2l-typography": "^4.1.0",
+    "d2l-colors": "^2.1.0",
+    "d2l-image-action": "^0.5.0",
+    "d2l-forms": "git+https://github.com/Brightspace/d2l-forms-ui.git",
+    "iron-a11y-keys": "^1.0.6",
+    "iron-a11y-announcer": "^1.0.5"
   },
   "devDependencies": {
     "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",
     "iron-demo-helpers": "PolymerElements/iron-demo-helpers#^1.0.0",
-    "web-component-tester": "^4.0.0",
-    "webcomponentsjs": "webcomponents/webcomponentsjs#^0.7.0"
+    "web-component-tester": "^4.3.5",
+    "webcomponentsjs": "webcomponents/webcomponentsjs#^0.7.0",
+    "d2l-demo-template": "^0.0.2",
+    "iron-test-helpers": "^1.2.5"
   }
 }

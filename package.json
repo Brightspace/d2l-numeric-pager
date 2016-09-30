@@ -5,8 +5,8 @@
   "scripts": {
     "postinstall": "bower install",
     "test": "npm run test:lint:js && npm run test:lint:wc && polymer test",
-    "test:lint:js": "eslint .",
-    "test:lint:wc": "polylint"
+    "test:lint:js": "eslint *.html **/*.html",
+    "test:lint:wc": "polylint --no-recursion"
   },
   "repository": {
     "type": "git",
@@ -25,7 +25,7 @@
   "devDependencies": {
     "bower": "^1.7.9",
     "eslint": "^3.5.0",
-    "eslint-config-brightspace": "^0.2.1",
+    "eslint-config-brightspace": "^0.2.4",
     "eslint-plugin-html": "^1.5.2",
     "polylint": "^2.10.1",
     "polymer-cli": "^0.16.0"

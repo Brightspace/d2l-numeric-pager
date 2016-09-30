@@ -1,4 +1,11 @@
 <link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../d2l-colors/d2l-colors.html">
+<link rel="import" href="../d2l-forms/d2l-input.html">
+<link rel="import" href="../d2l-icons/d2l-icon-button.html">
+<link rel="import" href="../d2l-icons/tier1-icons.html">
+<link rel="import" href="../d2l-typography/d2l-typography.html">
+<link rel="import" href="../iron-a11y-keys/iron-a11y-keys.html">
+<link rel="import" href="../iron-a11y-announcer/iron-a11y-announcer.html">
 
 <!--
 `d2l-numeric-pager`
@@ -8,19 +15,111 @@ Numeric Pager used in Brightspace Platform
 -->
 
 <dom-module id="d2l-numeric-pager">
-  <template>
-    <style>
-      :host {
-        display: block;
-      }
-    </style>
-  </template>
+	<template>
+		<style include="d2l-colors d2l-typography"></style>
+		<style>
+		:host {
+			display: inline-block;
+		}
+		input {
+			width: 4rem;
+			text-align: center;
+		}
+		span {
+			font-weight: lighter;
+			width: 2rem;
+		}
+		</style>
+		<div>
+			<button is="d2l-icon-button"
+					icon="d2l-tier1:chevron-left"
+					on-tap="_previousPage"
+					disabled$="{{_disablePreviousButton(currentPage)}}">
+					Previous Page
+			</button>
+			<iron-a11y-keys
+					target="[[target]]"
+					keys="enter"
+                    on-keys-pressed="onEnter">
+			</iron-a11y-keys>
+			<input is="d2l-input"
+				type=text
+				prevent-invalid-input allowed-pattern="[0-9]"
+				value={{currentPage::input}}
+				on-change="_onChange"
+				aria-required="true"
+				title="Page Number">
+			</input>
+			<span>/</span>
+			<span>[[pageCount]]</span>
+			<button is="d2l-icon-button"
+					icon="d2l-tier1:chevron-right"
+					on-tap="_nextPage"
+					disabled$="{{_disableNextButton(currentPage)}}">
+					Next Page
+			</button>
+		</div>
+	</template>
 
   <script>
     Polymer({
-
-      is: 'd2l-numeric-pager'
-
+	is: 'd2l-numeric-pager',
+	properties: {
+		pageCount: Number,
+		currentPage: {
+			type: Number,
+			value: 1,
+			notify: true,
+			reflectToAttribute: true
+		},
+		target: {
+			type: Object,
+			value: function() {
+				return this.$.input;
+			}
+		}
+	},
+	created:function() {
+		Polymer.IronA11yAnnouncer.requestAvailability();
+	},
+	onEnter:function() {
+		this._announcePage();
+	},
+	_onChange:function(e) {
+		var currentPage = parseInt(e.target.value);
+		if (isNaN(currentPage)) {
+			this._announce('Invalid character. Resetting to default value of 1');
+			currentPage = 1;
+		}
+		if (currentPage < 1 || currentPage > this.pageCount) {
+			this._announce('Out of page number range. Resetting page number');
+		}
+		currentPage = Math.max( 1, currentPage );
+		currentPage = Math.min( this.pageCount, currentPage );
+		this.currentPage = currentPage;
+	},
+	_previousPage:function() {
+		this.currentPage = Math.max( 1, this.currentPage - 1);
+		this._announcePage();
+	},
+	_nextPage:function() {
+		var max = this.pageCount;
+		var currentPage = this.currentPage;
+		this.currentPage = currentPage === max ? max : currentPage + 1;
+		this._announcePage();
+	},
+	_disableNextButton:function(currentPage) {
+		return (currentPage === this.pageCount ? true : false);
+	},
+	_disablePreviousButton:function(currentPage) {
+		return (currentPage === 1 ? true : false);
+	},
+	_announcePage:function() {
+		this._announce('Page number ' + this.currentPage + ' of ' + this.pageCount);
+	},
+	_announce:function(message) {
+		this.fire('iron-announce', {text: message}, {bubbles:true});
+	}
     });
   </script>
 </dom-module>
