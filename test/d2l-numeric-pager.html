@@ -20,13 +20,13 @@
 
 		<test-fixture id="currentPageMax">
 		  <template>
-			<d2l-numeric-pager current-page=10 page-count=10></d2l-numeric-pager>
+			<d2l-numeric-pager page-count=10></d2l-numeric-pager>
 		  </template>
 		</test-fixture>
 
 		<script>
 			describe('a11y', function() {
-				a11ySuite('basic'); // eslint-disable-line
+				a11ySuite('basic');
 			});
 			describe('<d2l-numeric-pager>', function() {
 				var numericPager;
@@ -85,12 +85,6 @@
 					MockInteractions.pressEnter(numericPager.$$('input'));
 					expect(numericPager.currentPage).to.equal(1);
 				});
-				it('should disable next button when currentPage===pageCount', function() {
-					expect(numericPager.$$('button[icon="d2l-tier1:chevron-right"]').hasAttribute('disabled')).to.be.false;
-				});
-				it('should disable previous button when currentPage=1', function() {
-					expect(numericPager.$$('button[icon="d2l-tier1:chevron-left"]').hasAttribute('disabled')).to.be.true;
-				});
 			});
 			describe('<d2l-numeric-pager> - disabled next and previous buttons', function() {
 				var numericPager;
@@ -99,14 +93,16 @@
 					flush(done);
 				});
 				it('should disable next button when currentPage===pageCount', function(done) {
-					numericPager.addEventListener('enter', function() {
-						expect(numericPager.$$('button[icon="d2l-tier1:chevron-right"]').hasAttribute('disabled')).to.be.true;
-						done();
-					});
-					MockInteractions.pressEnter(numericPager.$$('input'));
+					numericPager.$$('input').value = numericPager.pageCount;
+					numericPager.$$('input').fire('change');
+					expect(numericPager.$$('button[icon="d2l-tier1:chevron-right"]').hasAttribute('disabled')).to.be.true;
+					done();
 				});
-				it('should disable previous button when currentPage=1', function() {
-					expect(numericPager.$$('button[icon="d2l-tier1:chevron-left"]').hasAttribute('disabled')).to.be.false;
+				it('should disable previous button when currentPage=1', function(done) {
+					numericPager.$$('input').value = 1;
+					numericPager.$$('input').fire('change');
+					expect(numericPager.$$('button[icon="d2l-tier1:chevron-left"]').hasAttribute('disabled')).to.be.true;
+					done();
 				});
 			});
 			describe('<d2l-numeric-pager> - a11y', function() {
@@ -117,7 +113,7 @@
 				});
 				it('should raise an announcement when input is changed', function(done) {
 					numericPager.addEventListener('iron-announce', function(event) {
-						expect(event.detail.text).to.equal('Page number 8 of 10');
+						expect(event.detail.text).to.equal('Page Number 8 of 10');
 						done();
 					});
 					numericPager.$$('input').value = 8;
@@ -126,14 +122,14 @@
 				});
 				it('should raise an announcement when nextButton is clicked', function(done) {
 					numericPager.addEventListener('iron-announce', function(event) {
-						expect(event.detail.text).to.equal('Page number 2 of 10');
+						expect(event.detail.text).to.equal('Page Number 2 of 10');
 						done();
 					});
 					numericPager.$$('button[icon="d2l-tier1:chevron-right').click();
 				});
 				it('should raise an announcement when previousButton is clicked', function(done) {
 					numericPager.addEventListener('iron-announce', function(event) {
-						expect(event.detail.text).to.equal('Page number 2 of 10');
+						expect(event.detail.text).to.equal('Page Number 2 of 10');
 						done();
 					});
 					numericPager.$$('input').value = 3;

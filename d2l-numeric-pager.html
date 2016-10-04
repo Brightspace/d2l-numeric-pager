@@ -6,6 +6,7 @@
 <link rel="import" href="../d2l-typography/d2l-typography.html">
 <link rel="import" href="../iron-a11y-keys/iron-a11y-keys.html">
 <link rel="import" href="../iron-a11y-announcer/iron-a11y-announcer.html">
+<link rel="import" href="./localize-behavior.html">
 
 <!--
 `d2l-numeric-pager`
@@ -35,7 +36,7 @@ Numeric Pager used in Brightspace Platform
 					icon="d2l-tier1:chevron-left"
 					on-tap="_previousPage"
 					disabled$="{{_disablePreviousButton(currentPage)}}">
-					Previous Page
+					{{localize('previousLabel')}}
 			</button>
 			<iron-a11y-keys
 					target="[[target]]"
@@ -48,7 +49,7 @@ Numeric Pager used in Brightspace Platform
 				value={{currentPage::input}}
 				on-change="_onChange"
 				aria-required="true"
-				title="Page Number">
+				title$="{{localize('pageLabel')}}">
 			</input>
 			<span>/</span>
 			<span>[[pageCount]]</span>
@@ -56,7 +57,7 @@ Numeric Pager used in Brightspace Platform
 					icon="d2l-tier1:chevron-right"
 					on-tap="_nextPage"
 					disabled$="{{_disableNextButton(currentPage)}}">
-					Next Page
+					{{localize('nextLabel')}}
 			</button>
 		</div>
 	</template>
@@ -64,6 +65,9 @@ Numeric Pager used in Brightspace Platform
   <script>
     Polymer({
 	is: 'd2l-numeric-pager',
+	behaviors: [
+		window.D2L.PolymerBehaviors.NumericPager.LocalizeBehavior
+	],
 	properties: {
 		pageCount: Number,
 		currentPage: {
@@ -88,11 +92,11 @@ Numeric Pager used in Brightspace Platform
 	_onChange:function(e) {
 		var currentPage = parseInt(e.target.value);
 		if (isNaN(currentPage)) {
-			this._announce('Invalid character. Resetting to default value of 1');
+			this._announce(this.localize('invalidEntryHelp'));
 			currentPage = 1;
 		}
 		if (currentPage < 1 || currentPage > this.pageCount) {
-			this._announce('Out of page number range. Resetting page number');
+			this._announce(this.localize('pageResetHelp'));
 		}
 		currentPage = Math.max( 1, currentPage );
 		currentPage = Math.min( this.pageCount, currentPage );
@@ -115,7 +119,7 @@ Numeric Pager used in Brightspace Platform
 		return (currentPage === 1 ? true : false);
 	},
 	_announcePage:function() {
-		this._announce('Page number ' + this.currentPage + ' of ' + this.pageCount);
+		this._announce(this.localize('pageNumberHelp', 'currentPage', this.currentPage, 'pageCount', this.pageCount));
 	},
 	_announce:function(message) {
 		this.fire('iron-announce', {text: message}, {bubbles:true});
