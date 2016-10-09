@@ -104,12 +104,14 @@ Numeric Pager used in Brightspace Platform
 	},
 	_previousPage:function() {
 		this.currentPage = Math.max( 1, this.currentPage - 1);
+		this.fire('change', this.$$('input').value);
 		this._announcePage();
 	},
 	_nextPage:function() {
 		var max = this.pageCount;
 		var currentPage = this.currentPage;
 		this.currentPage = currentPage === max ? max : currentPage + 1;
+		this.fire('change', this.$$('input').value);
 		this._announcePage();
 	},
 	_disableNextButton:function(currentPage) {
