@@ -1,0 +1,51 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>localization tests</title>
+		<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+		<script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+		<script src="../../web-component-tester/browser.js"></script>
+		<link rel="import" href="../localize-behavior.html">
+		<link rel="import" href="../d2l-numeric-pager.html">
+	</head>
+	<body>
+		<test-fixture id="basic">
+			<template>
+				<d2l-numeric-pager page-count=10></d2l-numeric-pager>
+			</template>
+		</test-fixture>
+		<script>
+			describe('Default', function() {
+
+				beforeEach(function() {
+					document.documentElement.lang = '';
+					document.documentElement.removeAttribute('data-lang-default');
+				});
+
+				it('should handle uppercase language', function() {
+					document.documentElement.lang = 'EN';
+					var elem = fixture('basic');
+					expect(elem.language).to.equal('en');
+				});
+
+				it('should fall back to base language for unknown regional locale', function() {
+					document.documentElement.lang = 'en-CA';
+					var elem = fixture('basic');
+					expect(elem.language).to.equal('en');
+				});
+
+				it('should fall back English for unknown language', function() {
+					document.documentElement.lang = 'XX';
+					var elem = fixture('basic');
+					expect(elem.language).to.equal('en');
+				});
+
+				it('should extract localization correctly when no language is set', function() {
+					var elem = fixture('basic');
+					expect(elem.localize('nextLabel')).to.equal('Next Page');
+				});
+			});
+		</script>
+	</body>
+</html>
