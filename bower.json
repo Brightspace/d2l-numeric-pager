@@ -4,7 +4,7 @@
   "main": "d2l-numeric-pager.html",
   "dependencies": {
     "polymer": "Polymer/polymer#^1.4.0",
-    "d2l-icons": "^2.8.0",
+    "d2l-icons": "^3.1.0",
     "d2l-typography": "^5.0.0",
     "d2l-colors": "^2.1.0",
     "d2l-image-action": "^1.0.0",
